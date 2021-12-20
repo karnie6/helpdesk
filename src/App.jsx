@@ -8,7 +8,6 @@ import InputGroup from 'react-bootstrap/InputGroup'
 import FormControl from 'react-bootstrap/FormControl'
 import Form from 'react-bootstrap/Form'
 
-
 // Constants
 const TWITTER_HANDLE = 'helpdeskxyz';
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
@@ -69,7 +68,6 @@ const App = () => {
     
       setWalletAddress(response.publicKey.toString());
     }
-
   };
 
   /*
