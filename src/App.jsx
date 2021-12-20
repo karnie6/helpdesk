@@ -1,6 +1,13 @@
 import React, { useEffect, useState} from 'react';
 import twitterLogo from './assets/twitter-logo.svg';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Modal from 'react-bootstrap/Modal'
+import Button from 'react-bootstrap/Button'
+import InputGroup from 'react-bootstrap/InputGroup'
+import FormControl from 'react-bootstrap/FormControl'
+import Form from 'react-bootstrap/Form'
+
 
 // Constants
 const TWITTER_HANDLE = 'helpdeskxyz';
@@ -9,6 +16,8 @@ const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 const App = () => {
 
   const [walletAddress, setWalletAddress] = useState(null);
+
+  const [modalShow, setModalShow] = React.useState(false);
 
   const checkIfWalletIsConnected = async () => {
     try {
@@ -76,15 +85,58 @@ const App = () => {
     </button>
   );
 
+  function CreateTicketModal(props) {
   return (
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Create a Ticket
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <InputGroup className="mb-3">
+        <InputGroup.Text id="basic-addon1">Title</InputGroup.Text>
+        <FormControl
+        placeholder="Title"
+        aria-label="Title"
+        aria-describedby="basic-title"
+        />
+        </InputGroup>
+
+        <InputGroup>
+        <InputGroup.Text>What can we help with?</InputGroup.Text>
+        <FormControl as="textarea" aria-label="What do you need help with?"/>
+        </InputGroup>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button>Submit</Button>
+      </Modal.Footer>
+    </Modal>
+    );
+  };
+
+ return (
     <div className="App">
         <div className={walletAddress ? 'authed-container' : 'container'}>
         <div className="header-container">
           <p className="header">HelpDesk</p>
           <p className="sub-text">Get your crypto questions answered ✨</p>
           
-          {!walletAddress && renderNotConnectedContainer()}
-        
+          {!walletAddress && renderNotConnectedContainer()
+          }
+
+          {walletAddress && 
+          <div>
+            <Button variant="primary" onClick={() => setModalShow(true)}>Create Ticket</Button>
+
+            <CreateTicketModal show={modalShow} onHide={() => setModalShow(false)}/>
+          </div>
+          }
         </div>
         <div className="footer-container">
           <img alt="Twitter Logo" className="twitter-logo" src={twitterLogo} />
